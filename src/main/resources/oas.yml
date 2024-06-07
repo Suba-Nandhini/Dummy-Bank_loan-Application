@@ -1,0 +1,523 @@
+openapi: 3.0.1
+info:
+  title: Bank Loan Application
+  description: Bank Loan application
+  version: 3.1.0
+servers:
+  - url: http://localhost:8090
+    description: Generated server url
+paths:
+  /updateCustomer:
+    put:
+      tags:
+        - customer-controller
+      operationId: updateCustomer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customerdto'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+      security:
+        - bearerAuth: []
+  /loan/admin/approve/{id}:
+    put:
+      tags:
+        - admin-controller
+      operationId: approve
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+      security:
+        - bearerAuth: []
+  /request-deletion:
+    post:
+      tags:
+        - customer-controller
+      operationId: requestDeletion
+      parameters:
+        - name: accountNumber
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+      security:
+        - bearerAuth: []
+  /loan/add:
+    post:
+      tags:
+        - loan-applicant-controller
+      operationId: addLoanApplicant
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoanApplicantdto'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+      security:
+        - bearerAuth: []
+  /credit:
+    post:
+      tags:
+        - customer-controller
+      operationId: creditAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountDetails'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+      security:
+        - bearerAuth: []
+  /auth/register:
+    post:
+      tags:
+        - authentication-controller
+      operationId: register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthenticationRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+  /auth/authenticate:
+    post:
+      tags:
+        - authentication-controller
+      operationId: authenticate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthenticationRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AuthenticationResponse'
+  /auth/assign-role:
+    post:
+      tags:
+        - authentication-controller
+      operationId: assignRole
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthenticationRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+      security:
+        - bearerAuth: []
+  /addCustomer:
+    post:
+      tags:
+        - customer-controller
+      operationId: addCustomer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customerdto'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+      security:
+        - bearerAuth: []
+  /account/request-deletion:
+    post:
+      tags:
+        - account-controller
+      operationId: requestAccountDeletion
+      parameters:
+        - name: accountNumber
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+      security:
+        - bearerAuth: []
+  /account/approve-deletion/{requestId}:
+    post:
+      tags:
+        - account-controller
+      operationId: approveAccountDeletion
+      parameters:
+        - name: requestId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+      security:
+        - bearerAuth: []
+  /loan:
+    get:
+      tags:
+        - loan-applicant-controller
+      operationId: getAllLoans
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LoanApplicant'
+  /loan/admin/view:
+    get:
+      tags:
+        - admin-controller
+      operationId: view
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LoanApplicant'
+      security:
+        - bearerAuth: []
+  /loan/admin/transaction:
+    get:
+      tags:
+        - admin-controller
+      operationId: transaction
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+      security:
+        - bearerAuth: []
+  /loan/admin/approvalView:
+    get:
+      tags:
+        - admin-controller
+      operationId: approvalView
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LoanApplicant'
+      security:
+        - bearerAuth: []
+  /customer/{accountNumber}/details:
+    get:
+      tags:
+        - customer-loan-controller
+      operationId: getCustomerLoanDetails
+      parameters:
+        - name: accountNumber
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CustomerLoanDetails'
+      security:
+        - bearerAuth: []
+  /account/pending-deletion-request:
+    get:
+      tags:
+        - account-controller
+      operationId: getAllPendingRequests
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccountDeletionRequest'
+      security:
+        - bearerAuth: []
+components:
+  schemas:
+    Customerdto:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        netSalary:
+          type: integer
+          format: int64
+        phoneNumber:
+          type: string
+        panCard:
+          type: string
+        accountNumber:
+          type: string
+        residentYears:
+          type: integer
+          format: int32
+        workingYears:
+          type: integer
+          format: int32
+        balance:
+          type: number
+          format: double
+        havingAccount:
+          type: boolean
+    LoanApplicantdto:
+      type: object
+      properties:
+        customerAccountNumber:
+          type: string
+        loanType:
+          type: string
+        loanAmount:
+          type: number
+          format: double
+        existing_emi_amt:
+          type: integer
+          format: int64
+        tenure:
+          type: integer
+          format: int32
+    AccountDetails:
+      type: object
+      properties:
+        senderAccountNumber:
+          type: string
+        receiverAccountNumber:
+          type: string
+        amount:
+          type: number
+          format: double
+    AuthenticationRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    AuthenticationResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        jwt:
+          type: string
+    LoanApplicant:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        customerAccountNumber:
+          type: string
+        loanType:
+          type: string
+        customerEmail:
+          type: string
+        loanStatus:
+          type: string
+        loanAmount:
+          type: number
+          format: double
+        rateOfInterest:
+          type: number
+          format: float
+        emiAmt:
+          type: number
+          format: double
+        existing_emi_amt:
+          type: number
+          format: double
+        tenure:
+          type: integer
+          format: int32
+        netSalary:
+          type: integer
+          format: int64
+        eligiblityStatus:
+          type: string
+        cibilScore:
+          type: integer
+          format: int32
+    Transaction:
+      type: object
+      properties:
+        customerId:
+          type: integer
+          format: int32
+        senderAccountNumber:
+          type: string
+        receiverAccountNumber:
+          type: string
+        transactionTime:
+          type: string
+          format: date-time
+        amount:
+          type: number
+          format: double
+        transactionType:
+          type: string
+          enum:
+            - CREDIT
+            - DEBIT
+    Customer:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+        email:
+          type: string
+        netSalary:
+          type: integer
+          format: int64
+        phoneNumber:
+          type: string
+        panCard:
+          type: string
+        accountNumber:
+          type: string
+        residentYears:
+          type: integer
+          format: int32
+        workingYears:
+          type: integer
+          format: int32
+        havingAccount:
+          type: boolean
+        customerType:
+          type: string
+        balance:
+          type: number
+          format: double
+        loanStatus:
+          type: string
+          enum:
+            - PENDING
+            - APPROVED
+            - COMPLETED
+            - FAILED
+        debit:
+          type: number
+          format: double
+    CustomerLoanDetails:
+      type: object
+      properties:
+        customer:
+          $ref: '#/components/schemas/Customer'
+        loans:
+          type: array
+          items:
+            $ref: '#/components/schemas/LoanApplicant'
+    AccountDeletionRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        customer:
+          $ref: '#/components/schemas/Customer'
+        status:
+          type: string
+        date:
+          type: string
+          format: date-time
+  securitySchemes:
+    bearerAuth:
+      type: http
+      description: JWT authentication
+      in: header
+      scheme: bearer
+      bearerFormat: JWT
